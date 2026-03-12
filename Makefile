@@ -31,7 +31,10 @@ install: down build up post-install ## Full project installation
 	@echo ""
 	@echo "Application is ready at http://localhost:${NGINX_HOST_HTTP_PORT}"
 
-post-install: composer-install env-setup key-generate migrate ## Post-install routines
+post-install: composer-install env-setup key-generate migrate storage-link ## Post-install routines
+
+storage-link: ## Create storage symlink
+	@$(ARTISAN) storage:link --force
 
 env-setup: ## Setup .env for docker
 	@cp -n .env.example .env || true
